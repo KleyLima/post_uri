@@ -1,3 +1,4 @@
 .idea/
 __pycache__/
 source/geckodriver.log
+source/ghostdriver.log

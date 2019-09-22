@@ -14,7 +14,7 @@ class Uri:
         self.url = 'https://www.urionlinejudge.com.br'
         self.login = 'email'  # id
         self.psswrd = 'password'  # id
-        self.btn_login = 'send-green.send-right'  # class
+        self.btn_login = 'submit'# 'send-green.send-right'  # class
         self.logged = 'h-user'  # class
         self.search_question = 'q' #'input.text'  #'q'  # id
         self.btn_search_question = 'send-red'  # class
@@ -34,6 +34,7 @@ class Uri:
         self.conn.get(self.url)
 
     def question(self, number):
+        #self.conn.find_element_by_class_name(self.search_question).send_keys(number)
         self.conn.find_element_by_id(self.search_question).send_keys(number)
         self.conn.find_element_by_class_name(self.btn_search_question).click()
         self.conn.find_element_by_xpath(self.result+ number+ "']").click()
@@ -62,7 +63,8 @@ class Uri:
         btn_send.click()
 
 if __name__ == '__main__':
-    brw = webdriver.Firefox()
+    #brw = webdriver.Firefox()
+    brw = webdriver.PhantomJS()
     system('clear')
     nav = Uri(brw)
     nav.goto_uri()
