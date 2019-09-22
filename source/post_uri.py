@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
@@ -19,7 +20,7 @@ class Uri:
         self.combox_language = "language-id"  # id
         self.code_frame = "ace_scroller"  # class
         self.code_edit = "ace_text-input"  # class
-        
+        self.btn_send_code = "send-green"  # class   
 
     def log(self, email, senha):
         self.conn.find_element_by_id(self.login).send_keys(email)
@@ -38,8 +39,24 @@ class Uri:
     def select_language(self, number):
         combox = Select(self.conn.find_element_by_id(self.combox_language))
         combox.select_by_value('5')
-        
+  
+    def clear_code_frame(self):
+        self.conn.find_element_by_class_name('ace_text-input').send_keys(Keys.LEFT_CONTROL, 'a')
+        self.conn.find_element_by_class_name('ace_text-input').send_keys(Keys.DELETE)
 
+    def write_code(self):
+        with open('1101.py', 'r') as file:
+            code = file.read().splitlines()
+
+        for line in code:
+            self.conn.find_element_by_class_name('ace_text-input').send_keys(line)
+            self.conn.find_element_by_class_name('ace_text-input').send_keys(Keys.ENTER)
+            self.conn.find_element_by_class_name('ace_text-input').send_keys(Keys.HOME)
+
+    def commit(self):
+        btn_send = self.conn.find_element_by_class_name(self.btn_send_code)
+        self.conn.execute_script("arguments[0].scrollIntoView();", btn_send)
+        btn_send.click()
 
 if __name__ == '__main__':
     brw = webdriver.Firefox()
@@ -47,4 +64,7 @@ if __name__ == '__main__':
     nav.goto_uri()
     nav.log('email', 'senha')
     nav.question('1101')
-    nav.commit('1101')
+    nav.select_language('1101')
+    nav.clear_code_frame()
+    nav.write_code()
+    nav.commit()
