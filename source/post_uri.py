@@ -1,6 +1,7 @@
-#!/home/kleyton/anaconda3/bin/python3
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+from selenium.webdriver.firefox.options import Options
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
@@ -16,14 +17,14 @@ class Uri:
         self.psswrd = 'password'  # id
         self.btn_login = 'send-green.send-right'  # class
         self.logged = 'h-user'  # class
-        self.search_question = 'q' #'input.text'  #'q'  # id
+        self.search_question = 'q'  # id
         self.btn_search_question = 'send-red'  # class
         self.result = "//a[@href='/judge/pt/problems/view/"  # xpath
         self.btn_send_question = "//a[@href='/judge/pt/runs/add/"  # xpath
         self.combox_language = "language-id"  # id
         self.code_frame = "ace_scroller"  # class
         self.code_edit = "ace_text-input"  # class
-        self.btn_send_code = "send-green"  # class   
+        self.btn_send_code = "send-green"  # class
 
     def log(self, email, senha):
         self.conn.find_element_by_id(self.login).send_keys(email)
@@ -42,7 +43,7 @@ class Uri:
     def select_language(self):
         combox = Select(self.conn.find_element_by_id(self.combox_language))
         combox.select_by_value('5')
-  
+
     def clear_code_frame(self):
         self.conn.find_element_by_class_name('ace_text-input').send_keys(Keys.LEFT_CONTROL, 'a')
         self.conn.find_element_by_class_name('ace_text-input').send_keys(Keys.DELETE)
@@ -62,7 +63,10 @@ class Uri:
         btn_send.click()
 
 if __name__ == '__main__':
-    brw = webdriver.Firefox()
+    options = Options()
+    options.add_argument("--headless")
+    brw = webdriver.Firefox(firefox_options=options)
+    #brw = webdriver.Firefox()
     system('clear')
     nav = Uri(brw)
     nav.goto_uri()
